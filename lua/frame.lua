@@ -17,6 +17,14 @@ function Frame:_init(bounds, thickness)
     self:layout()
 end
 
+function Frame:setColor(color)
+    self.top.color = color
+    self.left.color = color
+    self.right.color = color
+    self.bottom.color = color
+    return self
+end
+
 function Frame:layout()
     local w2 = self.bounds.size.width / 2
     local h2 = self.bounds.size.height / 2

@@ -75,6 +75,7 @@ local mainView = Frame(
         :move(-3, 1.6, 2.2),
     0.03
 )
+mainView:setColor({ 34/255, 195/255, 181/255, 1})
 mainView.grabbable = true
 
 local titleLabel = mainView:addSubview(ui.Label{
@@ -106,6 +107,7 @@ for _, desc in pairs(decorations) do
     local decoView = grid:addSubview(
         DecoView(ui.Bounds{size=itemSize:copy()}, desc)
     )
+    decoView.brick:setColor({ 34/255, 195/255, 181/255, 0.3})
 end
 grid:layout()
 
