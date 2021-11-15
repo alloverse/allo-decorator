@@ -8,19 +8,34 @@ local client = Client(
     "allo-decorator"
 )
 
+function readfile(path)
+    local f = io.open(path, "r")
+    if not f then return nil end
+    local s = f:read("*a")
+    f:close()
+    return s
+end
+
+
 
 local app = App(client)
 
 local decorations = {} -- [name: asset]
 local p = io.popen('find gallery/* -maxdepth 0')
 for decoPath in p:lines() do
-    print("Decorator adding asset "..decoPath)
-    local asset = ui.Asset.File(decoPath)
-    decorations[decoPath] = {
-        name= decoPath,
-        asset= asset
-    }
-    app.assetManager:add(asset)
+    local infojsonstr = readfile(decoPath.."/info.json")
+    if infojsonstr then
+        print("Decorator adding asset "..decoPath)
+        local deco = {
+            path= decoPath,
+            meta= json.decode(infojsonstr),
+            asset= ui.Asset.File(decoPath.."/asset.glb"),
+            icon= ui.Asset.File(decoPath.."/icon.glb")
+        }
+        decorations[decoPath] = deco
+        app.assetManager:add(deco.asset)
+        app.assetManager:add(deco.icon)
+    end
 end
 p:close()
 
@@ -31,8 +46,17 @@ assets = {
 app.assetManager:add(assets)
 
 class.DecoView(ui.ProxyIconView)
+-- desc: table like:
+-- {
+--     path= str,
+--     meta= {
+--         display_name= str,
+--     },
+--     asset= ui.Asset.File,
+--     icon= ui.Asset.File,
+-- }
 function DecoView:_init(bounds, desc)
-    self:super(bounds, desc.name, desc.asset)
+    self:super(bounds, desc.meta.display_name, desc.icon)
     self.desc = desc
 end
 
@@ -44,11 +68,11 @@ end
 
 local columnCount = 3
 local rowCount = math.max(math.ceil(#decorations/columnCount), 1)
-print("YOOO", rowCount)
+
 local mainView = Frame(
-    ui.Bounds(0,0,0, 1.5, rowCount*0.4, 0.06)
+    ui.Bounds(0,0,0, 1.5, rowCount*0.5 + 0.12, 0.06)
         :rotate(3.14159/2, 0,1,0)
-        :move(-3, 1.6, 0.5),
+        :move(-3, 1.6, 2.2),
     0.03
 )
 mainView.grabbable = true
@@ -65,7 +89,7 @@ local helpLabel = mainView:addSubview(ui.Label{
     bounds= ui.Bounds{size=ui.Size(1.5,0.06,0.01)}
         :move( mainView.bounds.size:getEdge("bottom", "center", "back") )
         :move( 0, -0.10, 0),
-    text= "Grab an asset (grip button or right mouse button) and drop it somewhere to place it.",
+    text= "Grab an asset (grip button or right mouse button) \nand drop it somewhere to place it.",
     halign= "left",
     color={0.6, 0.6, 0.6, 1}
 })
