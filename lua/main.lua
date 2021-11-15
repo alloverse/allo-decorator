@@ -45,7 +45,9 @@ assets = {
 }
 app.assetManager:add(assets)
 
-class.DecoView(ui.ProxyIconView)
+-- Used to show the icon for the decoration, and is drag'n'droppable to place
+-- the asset in the world.
+class.DecoProxyView(ui.ProxyIconView)
 -- desc: table like:
 -- {
 --     path= str,
@@ -55,13 +57,35 @@ class.DecoView(ui.ProxyIconView)
 --     asset= ui.Asset.File,
 --     icon= ui.Asset.File,
 -- }
-function DecoView:_init(bounds, desc)
+function DecoProxyView:_init(bounds, desc)
     self:super(bounds, desc.meta.display_name, desc.icon)
     self.desc = desc
+    self.grabOptions = {
+        rotation_constraint= {0, 1, 0},
+    }
 end
 
-function DecoView:onIconDropped(pos)
-    -- todo
+function DecoProxyView:onIconDropped(pos)
+    local bounds = ui.Bounds{
+        pose= ui.Pose(pos),
+        size= ui.Size(unpack(self.desc.meta.size))
+    }
+    local deco = DecoView(bounds, self.desc.asset)
+    self.app:addRootView(deco)
+end
+
+-- The actual asset as shown in the place once dropped
+class.DecoView(ui.ModelView)
+function DecoView:_init(bounds, asset)
+    self:super(bounds, asset)
+    self.grabbable = true
+    self.grabOptions = {
+        rotation_constraint= {0, 1, 0},
+    }
+end
+
+function DecoView:onTouchDown()
+    self:removeFromSuperview()
 end
 
 
@@ -104,10 +128,10 @@ itemSize.width = itemSize.width / columnCount
 itemSize.height = itemSize.height / rowCount
 
 for _, desc in pairs(decorations) do
-    local decoView = grid:addSubview(
-        DecoView(ui.Bounds{size=itemSize:copy()}, desc)
+    local DecoProxyView = grid:addSubview(
+        DecoProxyView(ui.Bounds{size=itemSize:copy()}, desc)
     )
-    decoView.brick:setColor({ 34/255, 195/255, 181/255, 0.3})
+    DecoProxyView.brick:setColor({ 34/255, 195/255, 181/255, 0.3})
 end
 grid:layout()
 
