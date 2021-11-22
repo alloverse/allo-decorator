@@ -65,13 +65,26 @@ function DecoProxyView:_init(bounds, desc)
     }
 end
 
-function DecoProxyView:onIconDropped(pos)
+function DecoProxyView:onIconDropped(pos, oldIcon)
     local bounds = ui.Bounds{
         pose= ui.Pose(pos),
         size= ui.Size(unpack(self.desc.meta.size))
     }
     local deco = DecoView(bounds, self.desc.asset)
     self.app:addRootView(deco)
+    
+    
+    deco:doWhenAwake(function()
+        deco:addPropertyAnimation(ui.PropertyAnimation{
+            path= "transform.matrix.scale",
+            from= {0,0,0},
+            to=   {1,1,1},
+            duration = 0.4,
+            easing= "elasticOut"
+        })
+    end)
+
+    return true
 end
 
 -- The actual asset as shown in the place once dropped
