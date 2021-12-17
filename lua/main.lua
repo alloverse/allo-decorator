@@ -220,8 +220,18 @@ widgetifyButton.onActivated = function(hand)
 
     local currentGrid = nil
     function hideGrid()
-        currentGrid:removeFromSuperview()
+        currentGrid:addPropertyAnimation(ui.PropertyAnimation{
+            path= "transform.matrix",
+            from= mat4.scale(mat4.new(), currentGrid.bounds.pose.transform, vec3.new(0,0,0)),
+            to=   mat4.new(currentGrid.bounds.pose.transform),
+            duration = 0.2,
+            easing= "quadIn"
+        })
+        local g = currentGrid
         currentGrid = nil
+        app:scheduleAction(0.5, false, function()
+            g:removeFromSuperview()
+        end)
     end
     function showGrid()
         currentGrid = makeMain()
@@ -245,7 +255,17 @@ widgetifyButton.onActivated = function(hand)
             hideGrid()
             callupButton:removeFromSuperview()
         end
+        currentGrid.transform = mat4.scale(mat4.new(), mat4.new(), vec3.new(0,0,0))
         callupButton:addSubview(currentGrid)
+        currentGrid:doWhenAwake(function()
+            currentGrid:addPropertyAnimation(ui.PropertyAnimation{
+                path= "transform.matrix",
+                to= mat4.scale(mat4.new(), currentGrid.bounds.pose.transform, vec3.new(0,0,0)),
+                from=   mat4.new(currentGrid.bounds.pose.transform),
+                duration = 0.2,
+                easing= "quadOut"
+            })
+        end)
     end
 
 
