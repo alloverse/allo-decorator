@@ -42,6 +42,8 @@ p:close()
 
 assets = {
     quit = ui.Asset.File("images/quit.png"),
+    widget = ui.Asset.File("images/widget.png"),
+    icon = ui.Asset.File("icon.glb")
 }
 app.assetManager:add(assets)
 
@@ -141,19 +143,39 @@ function DecoView:onTouchDown(pointer)
 end
 
 
+function makeMain()
+    local columnCount = 3
+    local rowCount = math.max(math.ceil(#decorations/columnCount), 1)
+    
+    local mainView = Frame(
+        ui.Bounds(0,0,0,   1.5, rowCount*0.5 + 0.12, 0.06),
+        0.03
+    )
+    mainView:setColor({ 34/255, 195/255, 181/255, 1})
+    
+    local grid = mainView:addSubview(
+        ui.GridView(ui.Bounds{size=mainView.bounds.size:copy()}:insetEdges(0.06, 0.06, 0.06, 0.06, 0, 0))
+    )
+    
+    local itemSize = grid.bounds.size:copy()
+    itemSize.width = itemSize.width / columnCount
+    itemSize.height = itemSize.height / rowCount
+    
+    for _, desc in pairs(decorations) do
+        local DecoProxyView = grid:addSubview(
+            DecoProxyView(ui.Bounds{size=itemSize:copy()}, desc)
+        )
+        DecoProxyView.brick:setColor({ 34/255, 195/255, 181/255, 0.3})
+    end
+    grid:layout()
+    return mainView
+end
 
-local columnCount = 3
-local rowCount = math.max(math.ceil(#decorations/columnCount), 1)
 
-local mainView = Frame(
-    ui.Bounds(0,0,0, 1.5, rowCount*0.5 + 0.12, 0.06)
-        :rotate(3.14159/2, 0,1,0)
-        :move(-3, 1.6, 2.2),
-    0.03
-)
-mainView:setColor({ 34/255, 195/255, 181/255, 1})
+local mainView = makeMain()
+mainView.bounds:rotate(3.14159/2, 0,1,0):move(-3, 1.6, 2.2)
 mainView.grabbable = true
-
+    
 local titleLabel = mainView:addSubview(ui.Label{
     bounds= ui.Bounds{size=ui.Size(1.5,0.10,0.01)}
         :move( mainView.bounds.size:getEdge("top", "center", "back") )
@@ -171,23 +193,6 @@ local helpLabel = mainView:addSubview(ui.Label{
     color={0.6, 0.6, 0.6, 1}
 })
 
-local grid = mainView:addSubview(
-    ui.GridView(ui.Bounds{size=mainView.bounds.size:copy()}:insetEdges(0.06, 0.06, 0.06, 0.06, 0, 0))
-)
-
-local itemSize = grid.bounds.size:copy()
-itemSize.width = itemSize.width / columnCount
-itemSize.height = itemSize.height / rowCount
-
-for _, desc in pairs(decorations) do
-    local DecoProxyView = grid:addSubview(
-        DecoProxyView(ui.Bounds{size=itemSize:copy()}, desc)
-    )
-    DecoProxyView.brick:setColor({ 34/255, 195/255, 181/255, 0.3})
-end
-grid:layout()
-
-
 local quitButton = mainView:addSubview(ui.Button(
     ui.Bounds{size=ui.Size(0.12,0.12,0.05)}
         :move( mainView.bounds.size:getEdge("top", "right", "front") )
@@ -195,6 +200,72 @@ local quitButton = mainView:addSubview(ui.Button(
 quitButton:setDefaultTexture(assets.quit)
 quitButton.onActivated = function()
     app:quit()
+end
+
+-- Button to add wrist widget
+local widgetifyButton = mainView:addSubview(ui.Button(
+    ui.Bounds{size=ui.Size(0.12,0.12,0.05)}
+        :move( mainView.bounds.size:getEdge("top", "right", "front") )
+        :move( -0.22, 0, 0)
+))
+widgetifyButton:setDefaultTexture(assets.widget)
+widgetifyButton.onActivated = function(hand)
+    -- widget is just a button to call up a miniature decorator.
+    local callupButton = ui.Button(
+        ui.Bounds{size=ui.Size(0.025,0.025,0.02)}
+    )
+    callupButton:setColor({ 34/255, 195/255, 181/255, 0.8})
+    local icon = callupButton:addSubview(ui.ModelView(ui.Bounds(0, 0, 0.1), assets.icon))
+    icon.transform = mat4.scale(mat4.new(), mat4.new(), vec3.new(0.1, 0.1, 0.1))
+
+    local currentGrid = nil
+    function hideGrid()
+        currentGrid:removeFromSuperview()
+        currentGrid = nil
+    end
+    function showGrid()
+        currentGrid = makeMain()
+        currentGrid.bounds:move(0, 0.5, 0):scale(0.1, 0.1, 0.1)
+
+        local hideButton = currentGrid:addSubview(ui.Button(
+            ui.Bounds{size=ui.Size(0.12,0.12,0.05)}
+                :move( mainView.bounds.size:getEdge("top", "right", "front") )
+        ))
+        hideButton:setDefaultTexture(assets.quit)
+        hideButton.onActivated = function()
+            hideGrid()
+        end
+        local removeWidgetButton = currentGrid:addSubview(ui.Button(
+            ui.Bounds{size=ui.Size(0.70,0.12,0.05)}
+                :move( mainView.bounds.size:getEdge("top", "right", "front") )
+                :move( -0.50, 0, 0)
+        ))
+        removeWidgetButton.label:setText("Remove widget")
+        removeWidgetButton.onActivated = function()
+            hideGrid()
+            callupButton:removeFromSuperview()
+        end
+        callupButton:addSubview(currentGrid)
+    end
+
+
+    -- clicking it shows the mini decorator.
+    callupButton.onActivated = function ()
+        if currentGrid then
+            hideGrid()
+        else
+            showGrid()
+        end
+    end
+
+    -- add it, and animate on failure and success.
+    app:addWristWidget(hand, callupButton, function(ok)
+        if not ok then
+            ui.StandardAnimations.addFailureAnimation(widgetifyButton, 0.03)
+            return
+        end
+        ui.StandardAnimations.addSpawnAnimation(callupButton)
+    end)
 end
 
 app.mainView = mainView
