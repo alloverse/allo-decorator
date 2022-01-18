@@ -81,7 +81,7 @@ end
 local widgetBounds = ui.Bounds{size=ui.Size(0.12,0.12,0.05)}
     :move( mainView.bounds.size:getEdge("top", "right", "front") )
     :move( -0.22, 0, 0)
-mainView:addSubview(makeWidgetButton(app, widgetBounds, makeMainUIUI))
+mainView:addSubview(makeWidgetButton(app, widgetBounds, makeMainUI))
 
 app.mainView = mainView
 

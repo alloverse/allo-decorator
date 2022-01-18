@@ -27,13 +27,13 @@ function makeWidgetButton(app, bounds, makeUI)
                 g:removeFromSuperview()
             end)
         end
-        function showGrid()
+        function showUI()
             currentGrid = makeUI()
             currentGrid.bounds:move(0, 0.5, 0):scale(0.1, 0.1, 0.1)
 
             local hideButton = currentGrid:addSubview(ui.Button(
                 ui.Bounds{size=ui.Size(0.12,0.12,0.05)}
-                    :move( mainView.bounds.size:getEdge("top", "right", "front") )
+                    :move( currentGrid.bounds.size:getEdge("top", "right", "front") )
             ))
             hideButton:setDefaultTexture(assets.quit)
             hideButton.onActivated = function()
@@ -41,7 +41,7 @@ function makeWidgetButton(app, bounds, makeUI)
             end
             local removeWidgetButton = currentGrid:addSubview(ui.Button(
                 ui.Bounds{size=ui.Size(0.70,0.12,0.05)}
-                    :move( mainView.bounds.size:getEdge("top", "right", "front") )
+                    :move( currentGrid.bounds.size:getEdge("top", "right", "front") )
                     :move( -0.50, 0, 0)
             ))
             removeWidgetButton.label:setText("Remove widget")
@@ -68,7 +68,7 @@ function makeWidgetButton(app, bounds, makeUI)
             if currentGrid then
                 removeUI()
             else
-                makeUI()
+                showUI()
             end
         end
 
