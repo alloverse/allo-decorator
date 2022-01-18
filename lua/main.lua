@@ -154,12 +154,12 @@ function makeMain()
     mainView:setColor({ 34/255, 195/255, 181/255, 1})
 
     local tabs = mainView:addSubview(
-        ui.TabView(mainView.bounds:copy():insetEdges(0.06, 0.06, 0.06, 0.06, 0, 0))
+        ui.TabView(mainView.bounds:copy():insetEdges(0.06, 0.06, 0.06, 0.06, -0.02, 0))
     )
     
     local grid = tabs:addTab(
         "Decorations",
-        ui.GridView(tabs.bounds:copy():insetEdges(0.06, 0.06, 0.06, 0.06, 0, 0))
+        ui.GridView()
     )
     
     local itemSize = grid.bounds.size:copy()
@@ -176,7 +176,7 @@ function makeMain()
 
     local environments = tabs:addTab(
         "Environments",
-        ui.Surface(tabs.bounds:copy():insetEdges(0.06, 0.06, 0.06, 0.06, 0, 0))
+        ui.Surface()
     )
 
 
