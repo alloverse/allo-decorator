@@ -152,9 +152,14 @@ function makeMain()
         0.03
     )
     mainView:setColor({ 34/255, 195/255, 181/255, 1})
+
+    local tabs = mainView:addSubview(
+        ui.TabView(mainView.bounds:copy():insetEdges(0.06, 0.06, 0.06, 0.06, 0, 0))
+    )
     
-    local grid = mainView:addSubview(
-        ui.GridView(ui.Bounds{size=mainView.bounds.size:copy()}:insetEdges(0.06, 0.06, 0.06, 0.06, 0, 0))
+    local grid = tabs:addTab(
+        "Decorations",
+        ui.GridView(tabs.bounds:copy():insetEdges(0.06, 0.06, 0.06, 0.06, 0, 0))
     )
     
     local itemSize = grid.bounds.size:copy()
@@ -168,6 +173,13 @@ function makeMain()
         DecoProxyView.brick:setColor({ 34/255, 195/255, 181/255, 0.3})
     end
     grid:layout()
+
+    local environments = tabs:addTab(
+        "Environments",
+        ui.Surface(tabs.bounds:copy():insetEdges(0.06, 0.06, 0.06, 0.06, 0, 0))
+    )
+
+
     return mainView
 end
 
