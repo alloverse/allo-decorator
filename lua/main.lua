@@ -1,10 +1,10 @@
 local vec3 = require("modules.vec3")
 local mat4 = require("modules.mat4")
-local json = require "allo.json"
 local Frame = require("frame")
 local DecoView = require("decoview")
 local DecoProxyView = require("decoproxy")
 local DecorationsGridView = require("decolist")
+local EnvList = require("envlist")
 local makeWidgetButton = require("widget")
 
 local client = Client(
@@ -43,17 +43,13 @@ function makeMainUI()
     )
     
     -- First tab: list of decorations
-    local grid = tabs:addTab(
-        "Decorations",
-        DecorationsGridView()
-    )
-    grid:populate()
+    local grid = tabs:addTab("Decorations", DecorationsGridView())
+    grid:populate()    
 
-    -- Second tab: Environment picker
-    local environments = tabs:addTab(
-        "Environments",
-        ui.Surface()
-    )
+    -- Second tab: list of environments
+    local environments = tabs:addTab("Environments", EnvList())
+    environments:populate()
+    environments:selectEnvironment(1)
 
     return mainView
 end
@@ -70,15 +66,6 @@ local titleLabel = mainView:addSubview(ui.Label{
         :move( 0, 0.06, 0),
     text= "Allo Decorator",
     halign= "left",
-})
-
-local helpLabel = mainView:addSubview(ui.Label{
-    bounds= ui.Bounds{size=ui.Size(1.5,0.06,0.01)}
-        :move( mainView.bounds.size:getEdge("bottom", "center", "back") )
-        :move( 0, -0.10, 0),
-    text= "Grab an asset (grip button or right mouse button) \nand drop it somewhere to place it.",
-    halign= "left",
-    color={0.6, 0.6, 0.6, 1}
 })
 
 local quitButton = mainView:addSubview(ui.Button(
