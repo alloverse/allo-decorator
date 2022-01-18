@@ -5,6 +5,7 @@ local DecoView = require("decoview")
 local DecoProxyView = require("decoproxy")
 local DecorationsGridView = require("decolist")
 local EnvList = require("envlist")
+local EnvManager = require("envmanager")
 local makeWidgetButton = require("widget")
 
 local client = Client(
@@ -30,6 +31,8 @@ assets = {
 }
 app.assetManager:add(assets)
 
+envs = EnvManager()
+envs:selectEnvironment(2)
 
 function makeMainUI()
     local mainView = Frame(
@@ -49,7 +52,6 @@ function makeMainUI()
     -- Second tab: list of environments
     local environments = tabs:addTab("Environments", EnvList())
     environments:populate()
-    environments:selectEnvironment(1)
 
     return mainView
 end
