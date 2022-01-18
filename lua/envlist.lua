@@ -1,5 +1,8 @@
 local json = require "allo.json"
 
+currentEnvIndex = 0
+envlists = {}
+
 class.Env()
 function Env:_init(meta, code, icon)
     self.meta = meta
@@ -16,6 +19,18 @@ function EnvList:_init(bounds)
     self.grid = self:addSubview(ui.GridView())
 end
 
+function EnvList:awake()
+    ui.View.awake(self)
+    table.insert(envlists, self)
+    self:updateButtonLooks()
+end
+
+function EnvList:sleep()
+    ui.View.sleep(self)
+    local i = tablex.find(envlists, self)
+    table.remove(envlists, i)
+end
+
 function EnvList:populate()
     self.grid.bounds = self.bounds:copy():insetEdges(0, 0, 0, self.bounds.size.height/2, 0, 0)
 
@@ -29,7 +44,6 @@ function EnvList:populate()
     })
     
     self.envs = {}
-    self.currentEnvIndex = 0
     
     local p = io.popen('find envs/* -maxdepth 0')
     for envPath in p:lines() do
@@ -76,19 +90,27 @@ function EnvList:populate()
 end
 
 function EnvList:selectEnvironment(i)
-    local prev = self.envs[self.currentEnvIndex]
+    local prev = self.envs[currentEnvIndex]
     local next = self.envs[i]
-    self.currentEnvIndex = i
+    currentEnvIndex = i
 
     if prev then
         prev.code:unload()
-        prev.button:setColor(self.inactiveColor)
     end
     if next then
         next.code:load()
-        next.button:setColor(self.activeColor)
+        
     end
+    for _, l in ipairs(envlists) do
+        l:updateButtonLooks()
+    end
+end
 
+function EnvList:updateButtonLooks()
+    for i, env in ipairs(self.envs) do
+        local color = i == currentEnvIndex and self.activeColor or self.inactiveColor
+        env.button:setColor(color)
+    end
 end
 
 function EnvList:layout()
