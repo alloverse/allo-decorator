@@ -6,6 +6,9 @@ local DecoProxyView = require("decoproxy")
 local DecorationsGridView = require("decolist")
 local EnvList = require("envlist")
 local EnvManager = require("envmanager")
+local SkyList = require("skylist")
+local SkyManager = require("skymanager")
+
 local makeWidgetButton = require("widget")
 
 local client = Client(
@@ -33,6 +36,8 @@ app.assetManager:add(assets)
 
 envs = EnvManager()
 envs:selectEnvironment(2)
+skies = SkyManager(app)
+
 
 function makeMainUI()
     local mainView = Frame(
@@ -50,8 +55,12 @@ function makeMainUI()
     grid:populate()    
 
     -- Second tab: list of environments
-    local environments = tabs:addTab("Environments", EnvList())
-    environments:populate()
+    local envlist = tabs:addTab("Environments", EnvList())
+    envlist:populate()
+
+    -- Third tab: list of skies
+    local skylist = tabs:addTab("Skies", SkyList())
+    skylist:populate()
 
     return mainView
 end
