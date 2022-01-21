@@ -27,7 +27,7 @@ function EnvList:sleep()
 end
 
 function EnvList:populate()
-    self.grid.bounds = self.bounds:copy():insetEdges(0, 0, 0, self.bounds.size.height/2, 0, 0)
+    self.grid.bounds = self.bounds:copy():insetEdges(0, 0, 0, 0.1, 0, 0)
 
     local helpLabel = self:addSubview(ui.Label{
         bounds= ui.Bounds{size=ui.Size(1.5,0.04,0.01)}
