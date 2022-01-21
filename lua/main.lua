@@ -37,6 +37,7 @@ app.assetManager:add(assets)
 envs = EnvManager()
 envs:selectEnvironment(2)
 skies = SkyManager(app)
+skies:setAmbientLightColor({0.5, 0.5, 0.5})
 
 
 function makeMainUI()

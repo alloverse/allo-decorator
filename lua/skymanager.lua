@@ -21,6 +21,11 @@ function Environment:setSkybox(skybox)
     self:markAsDirty("environment")
 end
 
+function Environment:setAmbientLightColor(color)
+    self.ambientLight = color
+    self:markAsDirty("environment")
+end
+
 function Environment:specification()
     local spec = View.specification(self)
     spec.environment = {
@@ -74,6 +79,14 @@ end
 function SkyManager:useSky(name)
     self.currentSkyName = name
     self.env:setSkybox(self.skyboxes[name])
+    for i, l in ipairs(self.listeners) do
+        l:skyboxChanged()
+    end
+end
+
+function SkyManager:setAmbientLightColor(color)
+    self.env:setAmbientLightColor(color)
+    self.ambientLightColor = color
     for i, l in ipairs(self.listeners) do
         l:skyboxChanged()
     end
