@@ -56,7 +56,15 @@ function SkyManager:_init(app)
             bottom = ui.Asset.File('skies/sakura/bottom.png'),
             back = ui.Asset.File('skies/sakura/back.png'),
             front = ui.Asset.File('skies/sakura/front.png'),
-        }
+        },
+        blueishnight = {
+            left = ui.Asset.File('skies/blueishnight/left.png'),
+            right = ui.Asset.File('skies/blueishnight/right.png'),
+            top = ui.Asset.File('skies/blueishnight/top.png'),
+            bottom = ui.Asset.File('skies/blueishnight/bottom.png'),
+            back = ui.Asset.File('skies/blueishnight/back.png'),
+            front = ui.Asset.File('skies/blueishnight/front.png'),
+          }
     }
     app:addRootView(self.env)
     app.assetManager:add(self.skyboxes.sunset, true)
