@@ -13,7 +13,7 @@ function DecorationsGridView:populate()
     local helpLabel = self:addSubview(ui.Label{
         bounds= ui.Bounds{size=ui.Size(1.5,0.04,0.01)}
             :move( self.bounds.size:getEdge("bottom", "center", "back") )
-            :move( 0.10, 0.05, 0),
+            :move( 0.10, -0.14, 0),
         text= "Grab an asset (grip button or right mouse button) \nand drop it somewhere to place it.",
         halign= "left",
         color={0.6, 0.6, 0.6, 1}
