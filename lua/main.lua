@@ -48,7 +48,7 @@ function makeMainUI()
     mainView:setColor({ 34/255, 195/255, 181/255, 1})
 
     local tabs = mainView:addSubview(
-        ui.TabView(mainView.bounds:copy():insetEdges(0.06, 0.06, 0.06, 0.06, -0.02, 0))
+        ui.TabView(mainView.bounds:copy():insetEdges(0.10, 0.10, 0.06, 0.06, -0.02, 0))
     )
     
     -- First tab: list of decorations
