@@ -1,4 +1,4 @@
-local NoEnv = {}
+local HouseEnv = {}
 
 -- All the assets
 local house = {
@@ -67,25 +67,26 @@ function load(root, assets)
     end
 end
 
-local root = ui.View()
+local root = nil
 
-function NoEnv.load()
-    load(root, house)
-    load(root, decorations)
+function HouseEnv.load()
+    if not root then
+        root = ui.View()
+        load(root, house)
+        load(root, decorations)
+        root.bounds.pose:move(0, 0.01, 0)
 
-    root.bounds.pose:move(0, 0.01, 0)
-
-    -- Something fun for the TV
-    local tvScreen = ui.Surface(ui.Bounds(0, 0, 0,  1.29, 0.76, 0.01):rotate(-3.141/2, 0,1,0):move(12.59, 1.12, -2.895))
-    local teamImage = ui.Asset.File("envs/002-house/assets/alloteam.jpg")
-    app.assetManager:add(teamImage)
-    tvScreen:setTexture(teamImage)
-    root:addSubview(tvScreen)
-
+        -- Something fun for the TV
+        local tvScreen = ui.Surface(ui.Bounds(0, 0, 0,  1.29, 0.76, 0.01):rotate(-3.141/2, 0,1,0):move(12.59, 1.12, -2.895))
+        local teamImage = ui.Asset.File("envs/002-house/assets/alloteam.jpg")
+        app.assetManager:add(teamImage)
+        tvScreen:setTexture(teamImage)
+        root:addSubview(tvScreen)
+    end
     app:addRootView(root)
 end
-function NoEnv.unload()
+function HouseEnv.unload()
     root:removeFromSuperview()
 end
 
-return NoEnv
+return HouseEnv
