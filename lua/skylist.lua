@@ -163,7 +163,7 @@ function SkyList:populate()
 end
 
 function SkyList:skyboxChanged()
-    for name, desc in ipairs(skies.skyboxes) do
+    for name, desc in pairs(skies.skyboxes) do
         local color = name == skies.currentSkyName and self.activeColor or self.inactiveColor
         local button = self.buttons[name]
         button:setColor(color)
