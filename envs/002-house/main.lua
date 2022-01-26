@@ -46,34 +46,13 @@ local decorations = {
     {name = "couch_wall_v05.glb",  },
 }
 
-function load(root, assets)
-    -- Create assets and views for each
-    for _, spec in ipairs(assets) do
-        local asset = ui.Asset.File(assets.path..spec.name)
-        app.assetManager:add(asset, true)
-
-        local view = ui.ModelView(nil, asset)
-        view.hasTransparency = spec.hasTransparency
-        view.customSpecAttributes = {
-            material = {
-                shader_name = spec.shader or "pbr",
-            }
-        }
-
-        if spec.backfaceCulling then
-            view.customSpecAttributes.material.backfaceCulling = true
-        end
-        root:addSubview(view)
-    end
-end
-
 local root = nil
 
 function HouseEnv.load()
     if not root then
         root = ui.View()
-        load(root, house)
-        load(root, decorations)
+        loadEnvAssets(root, house)
+        loadEnvAssets(root, decorations)
         root.bounds.pose:move(0, 0.01, 0)
 
         -- Something fun for the TV

@@ -8,6 +8,7 @@ local EnvList = require("envlist")
 local EnvManager = require("envmanager")
 local SkyList = require("skylist")
 local SkyManager = require("skymanager")
+require("env")
 
 local makeWidgetButton = require("widget")
 
