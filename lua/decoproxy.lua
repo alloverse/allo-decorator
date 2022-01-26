@@ -24,7 +24,7 @@ function DecoProxyView:onIconDropped(pos, oldIcon)
         size= ui.Size(unpack(self.desc.meta.size))
     }
     local deco = DecoView(bounds, self.desc.asset)
-    if self.desc.hasTransparency then
+    if self.desc.meta.hasTransparency then
         deco.hasTransparency = true
     end
     self.app:addRootView(deco)
