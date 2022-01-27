@@ -16,6 +16,7 @@ function DecoProxyView:_init(bounds, desc)
     self.grabOptions = {
         rotation_constraint= {0, 1, 0},
     }
+    self.label.bounds.size.height = 0.03
 end
 
 function DecoProxyView:onIconDropped(pos, oldIcon)

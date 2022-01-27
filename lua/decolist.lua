@@ -8,7 +8,7 @@ function DecorationsGridView:_init(bounds)
 end
 
 function DecorationsGridView:populate()
-    self.grid.bounds = self.bounds:copy():insetEdges(0, 0, 0, self.bounds.size.height/2, 0, 0)
+    self.grid.bounds = self.bounds:copy()
 
     local helpLabel = self:addSubview(ui.Label{
         bounds= ui.Bounds{size=ui.Size(1.5,0.04,0.01)}
