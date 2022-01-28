@@ -4,7 +4,7 @@ local assets = {
     path = "envs/003-arcade/assets/",
     
     {name = "dome-12m-withdoor.glb", hasTransparency = true, pos={0,0,0}},
-    {name = "arcade-centerpiece.glb", hasTransparency = true, pos={0,0,0}},
+    {name = "arcade-centerpiece.glb", hasTransparency = false, pos={0,0,0}},
 
     --{name = "arcadesign.glb", hasTransparency = false, pos={12, 0, 0}, rot={3.14/2, 0,1,0}},
 
