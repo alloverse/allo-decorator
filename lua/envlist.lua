@@ -54,7 +54,8 @@ function EnvList:populate()
             Label{
                 bounds= button.bounds:copy()
                     :insetEdges(0,0,button.bounds.size.height-0.04,0, -button.bounds.size.depth,0),
-                text= desc.meta.display_name
+                text= desc.meta.display_name,
+                fitToWidth= button.bounds.size.width
             }
         )
         local iconModel = button:addSubview(ui.ModelView(
