@@ -29,7 +29,9 @@ function ArcadeEnv.load()
     if not root then
         root = ui.View()
         loadEnvAssets(root, assets)
-        root.bounds.pose:move(0, 0.01, 0)
+        root.bounds.pose
+            :rotate(-3.14/2, 0,1,0)
+            :move(0, 0.01, -6.3)
     end
     app:addRootView(root)
 end
