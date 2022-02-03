@@ -13,3 +13,10 @@ To start the app and connect it to an Alloplace for testing, run
 ```
 ./allo/assist run alloplace://sandbox.places.alloverse.com
 ```
+
+## Licenses
+
+This project uses resources from:
+
+* https://freesound.org/people/nickmaysoundmusic/sounds/460119/ (CC0)
+* https://freesound.org/people/nickmaysoundmusic/sounds/460119/ (CC0)
