@@ -6,7 +6,7 @@ local assets = {
     {name = "dome-12m-withdoor.glb", hasTransparency = true, pos={0,0,0}},
     {name = "arcade-centerpiece.glb", hasTransparency = false, pos={0,0,0}},
 
-    --{name = "arcadesign.glb", hasTransparency = false, pos={12, 0, 0}, rot={3.14/2, 0,1,0}},
+    {name = "arcade-sign.glb", hasTransparency = false, pos={6, 3.2, 0}, rot={3.14/2, 0,1,0}},
 
     {name = "houseplant01.glb", hasTransparency = false, pos={1, 0.1, 5}},
     {name = "houseplant01.glb", hasTransparency = false, pos={-2, 0.1, 5}},
@@ -22,11 +22,6 @@ local assets = {
 
     {name = "sounds/460119__nickmaysoundmusic__air-hockey-arcade-ambience-distant-music-left.mp3", volume = 0.5, pos={-2.5, 0.1, 4.5}},
     {name = "sounds/460119__nickmaysoundmusic__air-hockey-arcade-ambience-distant-music-right.mp3", volume = 0.5, pos={-2.5, 0.1, -4.5}},
-
-
-    --{name = "NES.glb", hasTransparency = false,         pos={-4, 1, 0}},
-    -- {name = "SNES.glb", hasTransparency = false,        pos={0, 0.1, 1}},
-    -- {name = "Megadrive.glb", hasTransparency = false,   pos={0, 0.1, 2}},
 }
 
 local root = nil
@@ -41,6 +36,18 @@ function ArcadeEnv.load()
             :move(0, 0.01, -6.3)
     end
     app:addRootView(root)
+
+    -- Add a red carpet leading to the dome
+    local redCarpet = ui.Surface(ui.Bounds( {size=ui.Size(10, 2, 0.001), pose=ui.Pose(10,0,0) }):rotate(-3.14/2, 1, 0, 0))
+    local carpetTextureAsset = ui.Asset.File("envs/003-arcade/assets/textures/red-carpet-tiled.png")
+
+    print("asset:", carpetTextureAsset)
+
+    redCarpet:setColor({0.8, 0, 0, 1})
+    redCarpet:setTexture(carpetTextureAsset)
+
+    root:addSubview(redCarpet)
+
 end
 function ArcadeEnv.unload()
     root:removeFromSuperview()
