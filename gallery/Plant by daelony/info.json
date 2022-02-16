@@ -1,4 +1,9 @@
 {
-    "display_name": "Plant × daelony",
-    "size": [0.4, 1, 0.4]
+  "display_name": "Plant 1",
+  "size": [0.4, 1, 0.4],
+  "hasTransparency": true,
+  "author": "daelony",
+  "contact": "",
+  "URL": "",
+  "info": ""
 }

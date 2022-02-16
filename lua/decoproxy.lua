@@ -11,12 +11,12 @@ class.DecoProxyView(ui.ProxyIconView)
 --     icon= ui.Asset.File,
 -- }
 function DecoProxyView:_init(bounds, desc)
-    self:super(bounds, desc.meta.display_name, desc.icon)
+    self:super(bounds, desc.meta.display_name, desc.meta.author, desc.icon)
     self.desc = desc
     self.grabOptions = {
         rotation_constraint= {0, 1, 0},
     }
-    self.label.bounds.size.height = 0.03
+    --self.authorLabel.bounds.size.height = 0.03
 end
 
 function DecoProxyView:onIconDropped(pos, oldIcon)

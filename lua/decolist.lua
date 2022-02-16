@@ -40,7 +40,7 @@ function DecorationsGridView:populate()
 
     local columnCount = 3
     local rowCount = math.max(math.ceil(#self.decorations/columnCount), 1)
-    local itemSize = self.grid.bounds.size:copy()
+    local itemSize = self.grid.bounds.size:copy():inset(0, 0.14, 0) -- TODO: 0.14 is a magic number approximately making up for the tab bar & its bottom spacing. Change this to a dynamic value instead.
     itemSize.width = itemSize.width / columnCount
     itemSize.height = itemSize.height / rowCount
     
@@ -48,7 +48,8 @@ function DecorationsGridView:populate()
         local proxy = self.grid:addSubview(
             DecoProxyView(ui.Bounds{size=itemSize:copy()}, desc)
         )
-        proxy.brick:setColor({ 34/255, 195/255, 181/255, 0.3})
+        --proxy.brick:setColor({ 34/255, 195/255, 181/255, 0.3})
+        proxy.brick:setColor({ 255, 255, 255, 0.1})
     end
     self.grid:layout()
 end

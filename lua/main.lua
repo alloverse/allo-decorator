@@ -46,18 +46,27 @@ function makeMainUI()
         ui.Bounds(0,0,0,   1.5, 2*0.5 + 0.12, 0.06),
         0.03
     )
-    mainView:setColor({ 34/255, 195/255, 181/255, 1})
+    mainView:setColor(Color.alloLightPink())
+
+    frameBg = ui.Surface(mainView.bounds:copy():move(0, 0, -mainView.bounds.size.depth/2)) --move the background surface backwards so it lines up with the b
+    frameBg:setColor(Color.alloDark())
+    mainView:addSubview(frameBg)
 
     local tabs = mainView:addSubview(
-        ui.TabView(mainView.bounds:copy():insetEdges(0.10, 0.10, 0.06, 0.06, -0.02, 0))
+        ui.TabView(
+          mainView.bounds:copy():insetEdges(0.03, 0.03, 0.03, 0, -0.02, 0),
+          0,
+          Color.alloLightGray(),
+          Color.alloWhite()
+        )
     )
     
     -- First tab: list of decorations
     local grid = tabs:addTab("Decorations", DecorationsGridView())
-    grid:populate()    
+    grid:populate()
 
     -- Second tab: list of environments
-    local envlist = tabs:addTab("Environments", EnvList())
+    local envlist = tabs:addTab("Collections", EnvList())
     envlist:populate()
 
     -- Third tab: list of skies
@@ -84,6 +93,7 @@ local titleLabel = mainView:addSubview(ui.Label{
 local quitButton = mainView:addSubview(ui.Button(
     ui.Bounds{size=ui.Size(0.12,0.12,0.05)}
         :move( mainView.bounds.size:getEdge("top", "right", "front") )
+        :move( -0.06, 0.06, 0)
 ))
 quitButton:setDefaultTexture(assets.quit)
 quitButton.onActivated = function()
@@ -93,7 +103,7 @@ end
 
 local widgetBounds = ui.Bounds{size=ui.Size(0.12,0.12,0.05)}
     :move( mainView.bounds.size:getEdge("top", "right", "front") )
-    :move( -0.22, 0, 0)
+    :move( -0.22, 0.06, 0)
 mainView:addSubview(makeWidgetButton(app, widgetBounds, makeMainUI))
 
 app.mainView = mainView
