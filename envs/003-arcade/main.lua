@@ -23,8 +23,8 @@ local assets = {
     {name = "sounds/460119__nickmaysoundmusic__air-hockey-arcade-ambience-distant-music-left.mp3", volume = 0.5, pos={-2.5, 0.1, 4.5}},
     {name = "sounds/460119__nickmaysoundmusic__air-hockey-arcade-ambience-distant-music-right.mp3", volume = 0.5, pos={-2.5, 0.1, -4.5}},
 
-    {name = "sounds/gold-saucer-left.mp3", volume = 0.5, pos={-2.5, 0.1, 4.5}},
-    {name = "sounds/gold-saucer-right.mp3", volume = 0.5, pos={-2.5, 0.1, -4.5}},
+    {name = "sounds/gold-saucer-left.mp3", volume = 0.1, pos={-2.5, 0.1, 4.5}},
+    {name = "sounds/gold-saucer-right.mp3", volume = 0.1, pos={-2.5, 0.1, -4.5}},
 }
 
 local root = nil
@@ -32,7 +32,7 @@ local root = nil
 function ArcadeEnv.load()
     if not root then
         root = ui.View()
-        loadEnvAssets(root, assets)
+        local views = loadEnvAssets(root, assets)
 
         -- Add a red carpet leading to the dome
         local carpetTextureAsset = ui.Asset.File("envs/003-arcade/assets/textures/red-carpet-tiled.png")
@@ -42,6 +42,19 @@ function ArcadeEnv.load()
         redCarpet:setColor({0.8, 0, 0, 1})
         redCarpet:setTexture(carpetTextureAsset)
         root:addSubview(redCarpet)
+
+        local volumeSlider = root:addSubview(ui.Slider(ui.Bounds(0.5, 0.13, -5.8,  0.45, 0.1, 0.1)))
+        volumeSlider.track.color = { 106/255, 42/255, 84/255, 1}
+        volumeSlider.knob.color = { 0, 0, 0, 1}
+        volumeSlider:minValue(0.0)
+        volumeSlider:maxValue(1.0)
+        volumeSlider:currentValue(0.1)
+        volumeSlider.activate = function(slider, sender, v)
+            local left = views["sounds/gold-saucer-left.mp3"]
+            local right = views["sounds/gold-saucer-right.mp3"]
+            left:setVolume(v)
+            right:setVolume(v)
+        end
         
         
         root.bounds.pose

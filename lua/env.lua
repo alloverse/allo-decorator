@@ -26,7 +26,7 @@ function loadEnvAssets(root, assets)
     elseif spec.name:match("mp3$") then
       view = ui.Speaker(nil, asset)
       if spec.volume then
-        view.volume = spec.volume
+        view:setVolume(spec.volume)
       end
     end
 
@@ -38,5 +38,7 @@ function loadEnvAssets(root, assets)
     end
 
     root:addSubview(view)
+    views[spec.name] = view
   end
+  return views
 end
