@@ -1,5 +1,6 @@
 function loadEnvAssets(root, assets)
   print("Loading the assets for env root", root)
+  local views = {}
   -- Create assets and views for each
   for _, spec in ipairs(assets) do
 
