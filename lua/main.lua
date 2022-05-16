@@ -73,6 +73,8 @@ function makeMainUI()
     local skylist = tabs:addTab("Skies", SkyList())
     skylist:populate()
 
+    tabs:switchToTabIndex(2)
+
     return mainView
 end
 
