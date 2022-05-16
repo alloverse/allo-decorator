@@ -66,7 +66,7 @@ function makeMainUI()
     grid:populate()
 
     -- Second tab: list of environments
-    local envlist = tabs:addTab("Collections", EnvList())
+    local envlist = tabs:addTab("Templates", EnvList())
     envlist:populate()
 
     -- Third tab: list of skies
@@ -88,7 +88,7 @@ local titleLabel = mainView:addSubview(ui.Label{
     bounds= ui.Bounds{size=ui.Size(1.5,0.10,0.01)}
         :move( mainView.bounds.size:getEdge("top", "center", "back") )
         :move( 0, 0.06, 0),
-    text= "Allo Decorator",
+    text= "Decorator",
     halign= "left",
 })
 

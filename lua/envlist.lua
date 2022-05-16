@@ -53,7 +53,7 @@ function EnvList:populate()
         local label = button:addSubview(
             Label{
                 bounds= button.bounds:copy()
-                    :insetEdges(0,0,button.bounds.size.height-0.04,0, -button.bounds.size.depth,0),
+                    :insetEdges(0,0, button.bounds.size.height-0.10,0.05, -button.bounds.size.depth,0),
                 text= desc.meta.display_name,
                 fitToWidth= button.bounds.size.width
             }
