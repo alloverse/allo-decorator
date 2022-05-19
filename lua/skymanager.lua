@@ -46,14 +46,14 @@ function SkyManager:_init(app)
     self.env = Environment()
     self.listeners = {}
     self.skyboxes = {
-        sunset = {
-            left = ui.Asset.File('skies/sunset/left.png'),
-            right = ui.Asset.File('skies/sunset/right.png'),
-            top = ui.Asset.File('skies/sunset/top.png'),
-            bottom = ui.Asset.File('skies/sunset/bottom.png'),
-            back = ui.Asset.File('skies/sunset/back.png'),
-            front = ui.Asset.File('skies/sunset/front.png'),
-        },
+        -- sunset = {
+        --     left = ui.Asset.File('skies/sunset/left.png'),
+        --     right = ui.Asset.File('skies/sunset/right.png'),
+        --     top = ui.Asset.File('skies/sunset/top.png'),
+        --     bottom = ui.Asset.File('skies/sunset/bottom.png'),
+        --     back = ui.Asset.File('skies/sunset/back.png'),
+        --     front = ui.Asset.File('skies/sunset/front.png'),
+        -- },
         sakura = {
             left = ui.Asset.File('skies/sakura/left.png'),
             right = ui.Asset.File('skies/sakura/right.png'),
@@ -69,11 +69,21 @@ function SkyManager:_init(app)
             bottom = ui.Asset.File('skies/blueishnight/bottom.png'),
             back = ui.Asset.File('skies/blueishnight/back.png'),
             front = ui.Asset.File('skies/blueishnight/front.png'),
-          }
+        },
+        fuzzywhite = {
+            left = ui.Asset.File('skies/fuzzywhite/left.png'),
+            right = ui.Asset.File('skies/fuzzywhite/right.png'),
+            top = ui.Asset.File('skies/fuzzywhite/top.png'),
+            bottom = ui.Asset.File('skies/fuzzywhite/bottom.png'),
+            back = ui.Asset.File('skies/fuzzywhite/back.png'),
+            front = ui.Asset.File('skies/fuzzywhite/front.png'),
+        }
     }
     app:addRootView(self.env)
-    app.assetManager:add(self.skyboxes.sunset, true)
+    --app.assetManager:add(self.skyboxes.sunset, true)
     app.assetManager:add(self.skyboxes.sakura, true)
+    app.assetManager:add(self.skyboxes.blueishnight, true)
+    app.assetManager:add(self.skyboxes.fuzzywhite, true)
 end
 
 function SkyManager:useSky(name)
