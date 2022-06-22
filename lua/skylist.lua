@@ -89,7 +89,7 @@ function SkyList:populate()
     
     self.buttons = {}
 
-    local columnCount = 3
+    local columnCount = 4
     local rowCount = math.max(math.ceil(#skies.skyboxes/columnCount), 1)
     local itemSize = self.grid.bounds.size:copy()
     itemSize.width = itemSize.width / columnCount

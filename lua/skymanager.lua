@@ -77,13 +77,22 @@ function SkyManager:_init(app)
             bottom = ui.Asset.File('skies/fuzzywhite/bottom.png'),
             back = ui.Asset.File('skies/fuzzywhite/back.png'),
             front = ui.Asset.File('skies/fuzzywhite/front.png'),
-        }
+        },
+        devsandbox = {
+          left = ui.Asset.File('skies/devsandbox/left.png'),
+          right = ui.Asset.File('skies/devsandbox/right.png'),
+          top = ui.Asset.File('skies/devsandbox/top.png'),
+          bottom = ui.Asset.File('skies/devsandbox/bottom.png'),
+          back = ui.Asset.File('skies/devsandbox/back.png'),
+          front = ui.Asset.File('skies/devsandbox/front.png'),
+      }
     }
     app:addRootView(self.env)
     --app.assetManager:add(self.skyboxes.sunset, true)
     app.assetManager:add(self.skyboxes.sakura, true)
     app.assetManager:add(self.skyboxes.blueishnight, true)
     app.assetManager:add(self.skyboxes.fuzzywhite, true)
+    app.assetManager:add(self.skyboxes.devsandbox, true)
 end
 
 function SkyManager:useSky(name)
