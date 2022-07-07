@@ -36,9 +36,33 @@ assets = {
 app.assetManager:add(assets)
 
 envs = EnvManager()
-envs:selectEnvironment(2)
 skies = SkyManager(app)
-skies:setAmbientLightColor({0.5, 0.5, 0.5})
+
+
+local t = {
+  ["alloplace://sandbox.places.alloverse.com"] = {
+    sky = "devsandbox",
+    environmentIndex = 5,
+    ambientLightColor = {0.5, 0.5, 0.5}
+  },
+  ["alloplace://arcade.places.alloverse.com"] = {
+    sky = "blueishnight",
+    environmentIndex = 3,
+    ambientLightColor = {0.5, 0.5, 0.5}
+  },
+}
+
+local preset = t[client.url]
+if preset ~= nil then
+    skies:setAmbientLightColor(preset.ambientLightColor)
+    envs:selectEnvironment(preset.environmentIndex)
+    skies:useSky(preset.sky)
+else
+    skies:setAmbientLightColor({0.5, 0.5, 0.5})
+    envs:selectEnvironment(1)
+    skies:useSky("sunset")
+end
+
 
 
 function makeMainUI()

@@ -93,7 +93,7 @@ function SkyList:populate()
     local rowCount = math.max(math.ceil(#skies.skyboxes/columnCount), 1)
     local itemSize = self.grid.bounds.size:copy()
     itemSize.width = itemSize.width / columnCount
-    itemSize.height = itemSize.height / rowCount
+    itemSize.height = (itemSize.height - 0.2) / rowCount
     for name, desc in pairs(skies.skyboxes) do
         local button = self.grid:addSubview(
             Button(ui.Bounds{size=itemSize:copy()}, desc)
