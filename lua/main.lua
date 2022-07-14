@@ -27,7 +27,6 @@ end
 
 app = App(client)
 
-
 assets = {
     quit = ui.Asset.File("images/quit.png"),
     widget = ui.Asset.File("images/widget.png"),
@@ -38,31 +37,40 @@ app.assetManager:add(assets)
 envs = EnvManager()
 skies = SkyManager(app)
 
-
-local t = {
-  ["alloplace://sandbox.places.alloverse.com"] = {
-    sky = "devsandbox",
-    environmentIndex = 5,
-    ambientLightColor = {0.5, 0.5, 0.5}
-  },
-  ["alloplace://arcade.places.alloverse.com"] = {
-    sky = "blueishnight",
-    environmentIndex = 3,
-    ambientLightColor = {0.5, 0.5, 0.5}
-  },
-}
-
-local preset = t[client.url]
-if preset ~= nil then
-    skies:setAmbientLightColor(preset.ambientLightColor)
-    envs:selectEnvironment(preset.environmentIndex)
-    skies:useSky(preset.sky)
-else
-    skies:setAmbientLightColor({0.5, 0.5, 0.5})
-    envs:selectEnvironment(1)
-    skies:useSky("sunset")
+-- Due to a race condition, we need to wait a short while before setting the defualt sky+environment for a particular place.
+app.onConnected = function()
+  app:scheduleAction(0.5, false, setDefaultEnvironment)
 end
 
+function setDefaultEnvironment()
+
+  local t = {
+    ["Developer sandbox"] = {
+      sky = "devsandbox",
+      environmentIndex = 5,
+      ambientLightColor = {0.4, 0.4, 0.4}
+    },
+    ["Alloverse Arcade"] = {
+      sky = "blueishnight",
+      environmentIndex = 3,
+      ambientLightColor = {0.5, 0.5, 0.5}
+    },
+  }
+  
+  local preset = t[client.placename]
+  if preset ~= nil then
+      skies:setAmbientLightColor(preset.ambientLightColor)
+      envs:selectEnvironment(preset.environmentIndex)
+      skies:useSky(preset.sky)
+  else
+      skies:setAmbientLightColor({0.5, 0.5, 0.5})
+      envs:selectEnvironment(1)
+      skies:useSky("sunset")
+  end
+
+  envs:selectEnvironment(preset.environmentIndex)
+
+end
 
 
 function makeMainUI()
