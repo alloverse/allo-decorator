@@ -37,40 +37,35 @@ app.assetManager:add(assets)
 envs = EnvManager()
 skies = SkyManager(app)
 
--- Due to a race condition, we need to wait a short while before setting the defualt sky+environment for a particular place.
-app.onConnected = function()
-  app:scheduleAction(0.5, false, setDefaultEnvironment)
-end
-
 function setDefaultEnvironment()
-
-  local t = {
-    ["Developer sandbox"] = {
+  local presets = {
+    ["alloplace://sandbox.places.alloverse.com:21337"] = {
       sky = "devsandbox",
       environmentIndex = 5,
       ambientLightColor = {0.4, 0.4, 0.4}
     },
-    ["Alloverse Arcade"] = {
+    ["alloplace://arcade.places.alloverse.com:21337"] = {
       sky = "blueishnight",
       environmentIndex = 3,
       ambientLightColor = {0.5, 0.5, 0.5}
     },
   }
   
-  local preset = t[client.placename]
+  local preset = presets[client.url]
   if preset ~= nil then
+      print("==== Preset found for", client.url)
       skies:setAmbientLightColor(preset.ambientLightColor)
       envs:selectEnvironment(preset.environmentIndex)
       skies:useSky(preset.sky)
   else
+      print("==== No preset found for", client.url)
       skies:setAmbientLightColor({0.5, 0.5, 0.5})
       envs:selectEnvironment(1)
       skies:useSky("sunset")
   end
-
-  envs:selectEnvironment(preset.environmentIndex)
-
 end
+setDefaultEnvironment()
+
 
 
 function makeMainUI()
