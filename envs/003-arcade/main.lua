@@ -28,6 +28,7 @@ local assets = {
 }
 
 local root = nil
+local apps = {}
 
 function ArcadeEnv.load()
     if not root then
@@ -56,16 +57,31 @@ function ArcadeEnv.load()
             right:setVolume(v)
         end
         
-        
         root.bounds.pose
             :rotate(-3.14/2, 0,1,0)
             :move(0, 0.01, -12)
     end
+
+    loadEnvApps(apps, {
+        {
+            url= "alloapp:http://localhost:8000/flynncade",
+            pose=ui.Pose():rotate(3.14*0.11, 0,1,0):move(-1.6, 0, -11.3),
+            args= {console="SNES", game="sf2t"}
+        },
+        {
+            url= "alloapp:http://localhost:8000/flynncade",
+            pose=ui.Pose():rotate(-3.14*0.11, 0,1,0):move( 2.10, 0, -11.3),
+            args= {console="NES", game="spaceinv"}
+        }
+    })
+
+
     app:addRootView(root)
 
 end
 function ArcadeEnv.unload()
     root:removeFromSuperview()
+    unloadEnvApps(apps)
 end
 
 return ArcadeEnv

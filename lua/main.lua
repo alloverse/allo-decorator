@@ -48,12 +48,6 @@ function setDefaultEnvironment()
       sky = "blueishnight",
       environmentIndex = 3,
       ambientLightColor = {0.5, 0.5, 0.5},
-      apps = {
-        {
-            url= "alloapp:http://localhost:8000/flynncade",
-            args= {initialLocation=ui.Pose(5, 5, 5):tojson()}
-        }
-      }
     },
   }
   

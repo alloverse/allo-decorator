@@ -42,3 +42,32 @@ function loadEnvAssets(root, assets)
   end
   return views
 end
+
+function loadEnvApps(apps, descs)
+  for i, desc in ipairs(descs) do
+    app.client:launchApp(desc.url, desc.pose, desc.args, function(ok, errOrId)
+      if not ok then
+        print("Failed to launch env app:", errOrId)
+      else
+        table.insert(apps, errOrId)
+      end
+    end)
+  end
+  
+end
+
+function unloadEnvApps(apps)
+  for i, aid in ipairs(apps) do
+    print("Asking app", aid, "to quit")
+    app.client:sendInteraction({
+      receiver_entity_id = aid,
+      body = {
+          "quit"
+      }
+    }, function(resp, body)
+      if body[2] ~= "ok" then
+        print("Failed to quit env app: ", body[3])
+      end
+    end)
+  end
+end
