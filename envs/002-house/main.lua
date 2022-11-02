@@ -47,6 +47,7 @@ local decorations = {
 }
 
 local root = nil
+local apps = {}
 
 function HouseEnv.load()
     if not root then
@@ -62,10 +63,20 @@ function HouseEnv.load()
         tvScreen:setTexture(teamImage)
         root:addSubview(tvScreen)
     end
+
+    loadEnvApps(apps, {
+        {
+            url= "alloapp:http://localhost:8000/allo-clock",
+            pose=ui.Pose():rotate(3.14*0.5, 0,1,0):rotate(-0.35, 0,0,1):move(-2.4, 3.4, -3.0),
+            args= {}
+        },
+    })
+    
     app:addRootView(root)
 end
 function HouseEnv.unload()
     root:removeFromSuperview()
+    unloadEnvApps(apps)
 end
 
 return HouseEnv
