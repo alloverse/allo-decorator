@@ -64,8 +64,7 @@ function setDefaultEnvironment()
       skies:useSky("sunset")
   end
 end
-setDefaultEnvironment()
-
+app.onConnected = setDefaultEnvironment
 
 
 function makeMainUI()
@@ -136,6 +135,12 @@ local widgetBounds = ui.Bounds{size=ui.Size(0.12,0.12,0.05)}
 mainView:addSubview(makeWidgetButton(app, widgetBounds, makeMainUI))
 
 app.mainView = mainView
+
+app.onBeforeQuit = function()
+    -- to quit apps etc
+    envs:selectEnvironment(1)
+    app:runFor(0.2)
+end
 
 app:connect()
 app:run()
