@@ -70,4 +70,5 @@ function unloadEnvApps(apps)
       end
     end)
   end
+  tablex.clear(apps)
 end
