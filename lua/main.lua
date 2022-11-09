@@ -107,7 +107,6 @@ end
 
 local mainView = makeMainUI()
 mainView.bounds:rotate(3.14159/2, 0,1,0):move(-3, 1.6, 2.4)
-mainView.grabbable = true
 
 -- Extra UI that only goes for the big UI, not for the widget version
 local titleLabel = mainView:addSubview(ui.Label{
